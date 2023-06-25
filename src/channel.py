@@ -49,7 +49,7 @@ class Channel:
             'view_count': self.view_count,
             'url': self.url})
         with open(filename, 'w', encoding='utf-8') as outfile:
-            json.dump(data, outfile)
+            json.dump(data, outfile, ensure_ascii=False)
 
 
 
