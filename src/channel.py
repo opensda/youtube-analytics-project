@@ -20,8 +20,26 @@ class Channel:
         self.view_count = self.channel['items'][0]['statistics']['viewCount']
         self.url = 'https://www.youtube.com/channel/' + self._channel_id
 
+    def __str__(self):
+        return f'{self.title} ({self.url})'
 
+    def __add__(self, other):
+        return int(self.subscribers_count) + int(other.subscribers_count)
 
+    def __sub__(self, other):
+        return int(self.subscribers_count) - int(other.subscribers_count)
+
+    def __lt__(self, other):
+        return self.subscribers_count < other.subscribers_count
+
+    def __le__(self, other):
+        return self.subscribers_count <= other.subscribers_count
+
+    def __gt__(self, other):
+        return self.subscribers_count > other.subscribers_count
+
+    def __ge__(self, other):
+        return self.subscribers_count >= other.subscribers_count
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
@@ -50,10 +68,3 @@ class Channel:
             'url': self.url})
         with open(filename, 'w', encoding='utf-8') as outfile:
             json.dump(data, outfile, ensure_ascii=False)
-
-
-
-
-
-
-
