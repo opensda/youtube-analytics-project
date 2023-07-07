@@ -1,14 +1,17 @@
 import os
 from googleapiclient.discovery import build
 
-from src.channel import Channel
-
-
 class Video:
-    def __init__(self, video_id: str) -> None:
+    def __init__(self, video_id) -> None:
+
+        # Создаем специальный объект для работы с YouTube
+
         self.api_key = os.getenv('YT_API_KEY')
         self.youtube = build('youtube', 'v3', developerKey=self.api_key)
-        self.video_response =  self.youtube.videos().list(part='snippet,statistics,contentDetails,topicDetails',
+
+        # Статистика видео в соответствии с его id
+
+        self.video_response = self.youtube.videos().list(part='snippet,statistics,contentDetails,topicDetails',
                                                id=video_id
                                                ).execute()
         self.video_title: str = self.video_response['items'][0]['snippet']['title']
