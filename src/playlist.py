@@ -85,7 +85,7 @@ class PlayList:
 
         # Получаем ссылку на видео
 
-        best_video = "https://youtu.be/" + video_id
+        best_video = f"https://youtu.be/{video_id}"
         return best_video
 
 

@@ -10,17 +10,25 @@ class Video:
         self.youtube = build('youtube', 'v3', developerKey=self.api_key)
 
         # Статистика видео в соответствии с его id
+        # Если id не существует, все остальные свойства None
 
-        self.video_response = self.youtube.videos().list(part='snippet,statistics,contentDetails,topicDetails',
-                                               id=video_id
-                                               ).execute()
-        self.video_title: str = self.video_response['items'][0]['snippet']['title']
-        self.view_count: int = self.video_response['items'][0]['statistics']['viewCount']
-        self.like_count: int = self.video_response['items'][0]['statistics']['likeCount']
-        self.comment_count: int = self.video_response['items'][0]['statistics']['commentCount']
+        try:
+            self.video_response = self.youtube.videos().list(part='snippet,statistics,contentDetails,topicDetails',
+                                                             id=video_id
+                                                             ).execute()
+            self.title: str = self.video_response['items'][0]['snippet']['title']
+            self.view_count: int = self.video_response['items'][0]['statistics']['viewCount']
+            self.like_count: int = self.video_response['items'][0]['statistics']['likeCount']
+            self.comment_count: int = self.video_response['items'][0]['statistics']['commentCount']
+        except IndexError:
+            self.video_id = video_id
+            self.title = None
+            self.view_count = None
+            self.like_count = None
+            self.comment_count = None
 
     def __str__(self):
-        return f'{self.video_title}'
+        return f'{self.title}'
 
 
 
@@ -30,7 +38,7 @@ class PLVideo(Video):
         self.playlist_id = playlist_id
 
     def __str__(self):
-        return f'{self.video_title}'
+        return f'{self.title}'
 
 
 
